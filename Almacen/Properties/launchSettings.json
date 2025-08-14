@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Almacen (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Almacen (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

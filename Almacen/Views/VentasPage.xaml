@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="AlmacenApp.Views.VentasPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:config="using:Almacen.Estilos_Configuracion.Configuraciones.Formateo_Numeros"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:estilos="using:Almacen.Estilos_Configuracion.Estilos"
+    xmlns:local="using:AlmacenApp.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="RootPage"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <config:Formato_Numeros_Colombinos x:Key="FormatoColombiano" />
+        
+        
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground" Value="{Binding Tema.ColorDeLetra}" />
+            <Setter Property="Background" Value="Red" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="SelectionHighlightColor" Value="Transparent" />
+            <Setter Property="FocusVisualPrimaryBrush" Value="Transparent" />
+            <Setter Property="FocusVisualSecondaryBrush" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <ScrollViewer
+                                x:Name="ContentElement"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{Binding Tema.FondoTersario}"
+                                BorderBrush="{Binding Tema.FondoSecundario}"
+                                BorderThickness="0,0,0,3"
+                                CornerRadius="5,5,10,10" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        
+
+
+
+    </Page.Resources>
+
+
+    <Grid
+        x:Name="Ventas_Ventana"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        Background="{Binding Tema.FondoSecundario}">
+
+       
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+
+
+
+
+        <!--  Barra de navegación  -->
+        <StackPanel
+            Height="50"
+            Margin="0,0,0,0"
+            VerticalAlignment="Top"
+            Grid.Row="0"                    
+            Background="{Binding Tema.FondoPrimario}"
+            />
+
+
+        <!--  Contenido principal del Login  -->
+        <StackPanel
+            Grid.Row="1"              
+          
+            Background="{Binding Tema.FondoSecundario}"
+            BorderBrush="{Binding Tema.FondoTersario}"
+            BorderThickness="15,5,0,0">
+
+            <Grid>
+
+                <!--  Definir una fila y dos columnas  -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+
+                <!--  primera columna: lista de productos  -->
+
+                <StackPanel Grid.Row="0"
+                    
+                    VerticalAlignment="Top"                 
+                    Grid.Column="0"
+                    Margin="10"
+                    Padding="10"
+                    Background="{Binding Tema.FondoPrimario}"
+                    BorderBrush="{Binding Tema.FondoTersario}"
+                    BorderThickness="0,0,10,0"
+                    CornerRadius="0,20,0,0">
+
+
+                    <!--  filtro de busqueda  -->
+                    <StackPanel>
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+
+                            </Grid.RowDefinitions>
+
+
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="20"
+                                Foreground="{Binding Tema.ColorDeLetra}"
+                                Text="Lista de productos" />
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                FontSize="15"
+                                Foreground="{Binding Tema.ColorDeLetra}"
+                                Text="Filtro de busqueda" />
+
+
+                            <TextBox
+                                x:Name="FiltroProductoVenta"
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Margin="15,0,15,0"
+                                Foreground="{Binding Tema.ColorDeLetra}"
+                                TextChanged="FiltroProductoVenta_TextChanged" />
+
+
+
+
+
+                        </Grid>
+
+                    </StackPanel>
+
+
+
+
+                    <StackPanel
+                        
+                        Background="{Binding Tema.FondoTersario}"
+                        CornerRadius="5,5,5,5">
+
+                        <!--  🔥 Encabezados estáticos  -->
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                x:Name="Nombre_Filtro_Ventas_lista_Uno"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Foreground="{Binding Tema.ColorDeLetra}"
+                                PointerPressed="OrdenarLista"
+                                Text="Nombre" />
+                            <TextBlock
+                                x:Name="Descripcion_Filtro_Ventas_lista_Uno"
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Foreground="{Binding Tema.ColorDeLetra}"
+                                PointerPressed="OrdenarLista"
+                                Text="Descripción" />
+                            <TextBlock
+                                x:Name="Cantidad_Filtro_Ventas_lista_Uno"
+                                Grid.Column="2"
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Foreground="{Binding Tema.ColorDeLetra}"
+                                PointerPressed="OrdenarLista"
+                                Text="Cantidad" />
+                            <TextBlock
+                                x:Name="Total_Filtro_Ventas_lista_Uno"
+                                Grid.Column="3"
+                                HorizontalAlignment="Center"
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Foreground="{Binding Tema.ColorDeLetra}"
+                                PointerPressed="OrdenarLista"
+                                Text="Total" />
+                        </Grid>
+
+                        <!--  Lista de productos  -->
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                            <ListView
+                                x:Name="ListaProductosVentas"
+                                Height="680"
+                                Background="{Binding Tema.FondoSecundario}"
+                                BorderBrush="{Binding Tema.FondoSecundario}"
+                                BorderThickness="0,4,0,0"
+                                CornerRadius="10,10,0,0"
+                                DoubleTapped="ListaProductosVentas_DoubleTapped"
+                                PointerWheelChanged="ListaProductosVentas_PointerWheelChanged">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid
+                                            Height="27"
+                                            Margin="5"
+                                            Background="{Binding Tema.FondoTersario}"
+                                            BorderBrush="{Binding Tema.FondoPrimario}"
+                                            BorderThickness="1,4,1,1"
+                                            CornerRadius="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="70" />
+                                                <ColumnDefinition Width="90" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock
+                                                x:Name="list_venta_text_nombre"
+                                                Grid.Column="0"
+                                                Margin="5,0,5,0"
+                                                FontSize="15"
+                                                Foreground="{Binding Tema.ColorDeLetra}"
+                                                Text="{Binding Nombre}"
+                                                TextWrapping="Wrap" />
+                                            <Border
+                                                Grid.Column="0"
+                                                BorderBrush="{Binding Tema.FondoSecundario}"
+                                                BorderThickness="0,0,2,1" />
+
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Margin="5,0,5,0"
+                                                FontSize="15"
+                                                Foreground="{Binding Tema.ColorDeLetra}"
+                                                Text="{Binding Descripcion}"
+                                                TextWrapping="Wrap" />
+                                            <Border
+                                                Grid.Column="1"
+                                                BorderBrush="{Binding Tema.FondoSecundario}"
+                                                BorderThickness="0,0,2,1" />
+
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                HorizontalAlignment="Center"
+                                                FontSize="15"
+                                                Foreground="{Binding Tema.ColorDeLetra}"
+                                                Text="{Binding Cantidad}"
+                                                TextWrapping="Wrap" />
+                                            <Border
+                                                Grid.Column="2"
+                                                BorderBrush="{Binding Tema.FondoSecundario}"
+                                                BorderThickness="0,0,2,1" />
+
+                                            <TextBlock
+                                                Grid.Column="3"
+                                                HorizontalAlignment="Center"
+                                                FontSize="15"
+                                                Foreground="{Binding Tema.ColorDeLetra}"
+                                                Text="{Binding Total, Converter={StaticResource FormatoColombiano}}"
+                                                TextWrapping="Wrap" />
+                                            <Border
+                                                Grid.Column="3"
+                                                BorderBrush="{Binding Tema.FondoSecundario}"
+                                                BorderThickness="0,0,0,1" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </ScrollViewer>
+
+                    </StackPanel>
+
+                </StackPanel>
+
+
+
+
+                <!--  Segunda columna: Resumen de venta  -->
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="10"
+                    Padding="10"
+                    Background="{Binding Tema.FondoPrimario}"
+                    BorderBrush="{Binding Tema.FondoTersario}"
+                    BorderThickness="0,0,10,0"
+                    CornerRadius="0,20,0,0">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+
+
+                        <StackPanel Grid.Row="0" Margin="5">
+
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="20"
+                                Foreground="{Binding Tema.ColorDeLetra}"
+                                Text="Resumen de venta" />
+
+
+
+                        </StackPanel>
+
+
+                        <StackPanel Grid.Row="1" Height="493">
+
+                            <!--  🔥 Encabezados estáticos  -->
+                            <Grid
+                                Height="35"
+                                Padding="6"
+                                Background="{Binding Tema.FondoTersario}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="115" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Foreground="{Binding Tema.ColorDeLetra}"
+                                    Text="Cantidad" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Foreground="{Binding Tema.ColorDeLetra}"
+                                    Text="Nombre" />
+                                <TextBlock
+                                    Grid.Column="2"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Foreground="{Binding Tema.ColorDeLetra}"
+                                    Text="Total" />
+                            </Grid>
+
+
+                            <ScrollViewer
+                                Height="465"
+                                VerticalScrollBarVisibility="Auto"
+                                VerticalScrollMode="Auto">
+                                <!--  Nueva lista para los productos seleccionados  FondoPrimario  -->
+                                <ListView
+                                    x:Name="ListaResumenVenta"
+                                    Height="465"
+                                    Background="{Binding Tema.FondoSecundario}"
+                                    CornerRadius="0,0,0,0"
+                                    DoubleTapped="ListaResumenVenta_DoubleTapped">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid
+                                                Height="29"
+                                                Margin="0,5,0,8"
+                                                Background="{Binding ElementName=RootPage, Path=Tema.FondoTersario}"
+                                                BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                                BorderThickness="1,4,1,1"
+                                                CornerRadius="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="100" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="100" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock
+                                                    Grid.Column="0"
+                                                    Margin="10,0,10,0"
+                                                    FontSize="15"
+                                                    Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                                    Text="{Binding CantidadVenta}"
+                                                    TextWrapping="Wrap" />
+                                                <Border
+                                                    Grid.Column="0"
+                                                    BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                                    BorderThickness="0,0,2,1" />
+
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    Margin="10,0,10,0"
+                                                    FontSize="15"
+                                                    Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                                    Text="{Binding Nombre}"
+                                                    TextWrapping="Wrap" />
+                                                <Border
+                                                    Grid.Column="1"
+                                                    BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                                    BorderThickness="0,0,2,1" />
+
+                                                <TextBlock
+                                                    Grid.Column="2"
+                                                    Margin="10,0,10,0"
+                                                    FontSize="15"
+                                                    Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                                    Text="{Binding Total, Converter={StaticResource FormatoColombiano}}"
+                                                    TextWrapping="Wrap" />
+                                                <Border
+                                                    Grid.Column="2"
+                                                    BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                                    BorderThickness="0,0,2,1" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </ScrollViewer>
+
+                        </StackPanel>
+
+
+                        <StackPanel
+                            Grid.Row="2"
+                            Margin="0,10,0,0"
+                            Padding="32"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Background="{Binding Tema.FondoSecundario}"
+                            BorderBrush="{Binding Tema.FondoTersario}">
+
+                            <Grid Padding="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+
+
+
+                                </Grid.RowDefinitions>
+
+
+
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Width="220"
+                                    HorizontalAlignment="Center"
+                                    Background="{Binding Tema.FondoPrimario}"
+                                    CornerRadius="5"
+                                    Orientation="Horizontal">
+
+                                    <TextBlock
+                                        Margin="10,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="{Binding Tema.ColorDeLetra}"
+                                        Text="precio de venta: " />
+                                    <TextBlock
+                                        x:Name="TotalVentaTextBlock"
+                                        Margin="9,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                        Text="0" />
+
+
+
+
+
+                                    <TextBlock
+                                        Margin="9,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="{Binding Tema.ColorDeLetra}"
+                                        Text="$" />
+                                </StackPanel>
+
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Margin="10"
+                                    HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
+
+                                    <Button
+                                        Width="140"
+                                        Height="50"
+                                        Margin="5,0,5,0"
+                                        Background="{Binding Tema.FondoPrimario}"
+                                        BorderBrush="{Binding Tema.FondoPrimario}"
+                                        BorderThickness="1"
+                                        Click="RealizarVenta_Click"
+                                        CornerRadius="5"
+                                        Foreground="{Binding Tema.ColorDeLetra}">
+                                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                            <FontIcon
+                                                Margin="0,0,10,0"
+                                                FontSize="14"
+                                                Foreground="{Binding Tema.ColorDeLetra}"
+                                                Glyph="&#xE7BF;" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Foreground="{Binding Tema.ColorDeLetra}"
+                                                Text="Realizar venta" />
+                                        </StackPanel>
+
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Background" Value="White" />
+                                                <Setter Property="Foreground" Value="White" />
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Grid>
+                                                                <Border
+                                                                    x:Name="BorderElement"
+                                                                    Background="{TemplateBinding Background}"
+                                                                    BorderBrush="DarkGray"
+                                                                    BorderThickness="1"
+                                                                    CornerRadius="10">
+                                                                    <ContentPresenter
+                                                                        HorizontalAlignment="Center"
+                                                                        VerticalAlignment="Center"
+                                                                        Content="{TemplateBinding Content}"
+                                                                        Foreground="{TemplateBinding Foreground}" />
+                                                                </Border>
+                                                                <VisualStateManager.VisualStateGroups>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal" />
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <Storyboard>
+                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Tema.FondoTersario}" />
+                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                            </Storyboard>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <Storyboard>
+                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Tema.FondoTersario}" />
+                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                            </Storyboard>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateManager.VisualStateGroups>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+
+
+                                    <Button
+                                        Width="140"
+                                        Height="50"
+                                        Background="{Binding Tema.FondoPrimario}"
+                                        BorderBrush="{Binding Tema.FondoPrimario}"
+                                        BorderThickness="1"
+                                        Click="CancelarVenta_Click"
+                                        CornerRadius="5"
+                                        Foreground="{Binding Tema.ColorDeLetra}">
+                                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                            <FontIcon
+                                                Margin="0,0,10,0"
+                                                FontSize="14"
+                                                Foreground="{Binding Tema.ColorDeLetra}"
+                                                Glyph="&#xE7BF;" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Foreground="{Binding Tema.ColorDeLetra}"
+                                                Text="Cancelar" />
+                                        </StackPanel>
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Background" Value="White" />
+                                                <Setter Property="Foreground" Value="White" />
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Grid>
+                                                                <Border
+                                                                    x:Name="BorderElement"
+                                                                    Background="{TemplateBinding Background}"
+                                                                    BorderBrush="DarkGray"
+                                                                    BorderThickness="1"
+                                                                    CornerRadius="10">
+                                                                    <ContentPresenter
+                                                                        HorizontalAlignment="Center"
+                                                                        VerticalAlignment="Center"
+                                                                        Content="{TemplateBinding Content}"
+                                                                        Foreground="{TemplateBinding Foreground}" />
+                                                                </Border>
+                                                                <VisualStateManager.VisualStateGroups>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal" />
+                                                                        <VisualState x:Name="PointerOver">
+                                                                            <Storyboard>
+                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Tema.FondoTersario}" />
+                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                            </Storyboard>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <Storyboard>
+                                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Tema.FondoTersario}" />
+                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                            </Storyboard>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateManager.VisualStateGroups>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+
+
+
+                                </StackPanel>
+
+
+                            </Grid>
+
+
+
+
+
+                        </StackPanel>
+
+                    </Grid>
+
+                </StackPanel>
+            </Grid>
+
+        </StackPanel>
+     
+
+    </Grid>
+
+</Page>
+
+

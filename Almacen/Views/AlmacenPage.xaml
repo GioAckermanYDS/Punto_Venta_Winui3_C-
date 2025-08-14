@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="AlmacenApp.Views.AlmacenPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:AlmacenApp.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:AlmacenApp.Models"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d">
+
+
+    <Grid x:Name="Almacen_Pagina" Background="{Binding FondoPrimario}">
+        <!--  Definición de las filas  -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!--  Fila 1: Barra superior  -->
+            <RowDefinition Height="*" />
+            <!--  Fila 2: Contenido principal  -->
+        </Grid.RowDefinitions>
+
+        <!--  Barra superior  -->
+        <StackPanel
+            Grid.Row="0"
+            Height="60"
+            VerticalAlignment="Top"
+            Background="{Binding FondoPrimario}"
+            Orientation="Horizontal">
+
+            <Button
+                Height="48"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Stretch"
+                BorderBrush="{Binding FondoPrimario}"
+                Click="AgregarCategoria"
+                CornerRadius="10"
+                FontSize="24">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <!--  Ícono  -->
+                    <FontIcon
+                        Margin="0,0,10,0"
+                        FontSize="24"
+                        Foreground="White"
+                        Glyph="&#xED11;" />
+                    <!--  Texto  -->
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="White"
+                        Text="Categoria" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <Grid
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="{Binding FondoSecundario}"
+            BorderBrush="{Binding FondoTersario}"
+            CornerRadius="15,15,0,0"
+            BorderThickness="10,5,0,0">
+
+            <Grid
+                
+                x:Name="MainContent"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+                <ScrollViewer
+                    
+                    HorizontalScrollBarVisibility="Disabled"
+                    HorizontalScrollMode="Disabled"
+                    VerticalScrollBarVisibility="Auto"
+                    VerticalScrollMode="Enabled">
+                    <!--  ItemsRepeater para mostrar ítems dinámicos  -->
+                    <ItemsRepeater  x:Name="CategoriasRepeater">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+
+                                MaximumRowsOrColumns="5"
+                                MinColumnSpacing="0"
+                                MinItemHeight="345"
+                                MinItemWidth="257"
+                                MinRowSpacing="7" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="models:Categoria">
+                                <Border
+                                    Width="250"
+                                    Height="340"
+                                    Background="{Binding FondoPrimario}"
+                                    BorderBrush="{Binding FondoPrimario}"
+                                   
+                                    CornerRadius="29">
+                                    <StackPanel
+                                         
+                                        BorderThickness="8"
+                                         CornerRadius="50,50,5,0"
+                                       
+                                       
+                                        Tag="{x:Bind Id}"
+                                        Tapped="AbrirViewCategorias">
+                                        <Image
+                                           
+                                            Width="250"
+                                            Height="300"
+                                            Source="{x:Bind ImagenBitmap}"
+                                            Stretch="UniformToFill" />
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontSize="18"
+                                            FontWeight="Bold"
+                                            Foreground="{Binding ColorDeLetra}"
+                                            Text="{x:Bind Nombre}"
+                                            TextAlignment="Center" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+
+
+
+
+
+
+
+
+        <!--  Contenedor para la vista de ViewCategorias (fuera de MainContent)  -->
+        <Grid x:Name="ViewCategoriasContainer" Visibility="Collapsed">
+            <Frame x:Name="ViewCategoriasFrame" />
+        </Grid>
+    </Grid>
+
+
+</Page>

@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="AlmacenApp.Views.AjustesPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:estilos="using:Almacen.Estilos_Configuracion.Estilos"
+    xmlns:local="using:AlmacenApp.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <x:Double x:Key="SettingsCardSpacing">8</x:Double>
+
+        <Style x:Key="CustomDialogStyle" TargetType="ContentDialog">
+            <Setter Property="Background" Value="Red"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{Binding Tema.FondoSecundario}">
+
+        <!--  Definición de filas  -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+
+        </Grid.RowDefinitions>
+
+        <!--  Barra de navegación personalizada  -->
+        <StackPanel
+            Grid.Row="0"
+            Height="60"
+            Background="{Binding Tema.FondoPrimario}"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="20,0,0,0"
+                VerticalAlignment="Center"
+                FontSize="20"
+                Foreground="{Binding Tema.ColorDeLetra}"
+                Text="Ajustes" />
+        </StackPanel>
+
+
+
+
+        <!--  Contenido principal del ajustes  -->
+        <StackPanel
+            Grid.Row="1"
+            BorderBrush="{Binding Tema.FondoTersario}"
+            BorderThickness="3">
+
+
+            <ScrollViewer Margin="0,10,0,0" VerticalAlignment="Top">
+
+
+                <StackPanel HorizontalAlignment="Stretch" Spacing="{StaticResource SettingsCardSpacing}">
+
+                    <Grid>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                            
+                        </Grid.ColumnDefinitions>
+                        
+                        
+                        <!--  Sección 1 Estilo de aplicacion  -->
+                        <StackPanel
+                           
+                          
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="10,0,10,5"
+                           
+                            CornerRadius="5">
+
+
+
+
+                            <Border
+                                Padding="20"
+                                Background="{Binding Tema.FondoPrimario}"
+                                CornerRadius="8">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0,10,0,4"
+                                        FontSize="18"
+                                        FontWeight="Bold"
+                                        Foreground="{Binding Tema.ColorDeLetra}"
+                                        Text="Estilo de la aplicaccion" />
+                                    <TextBlock Foreground="{Binding Tema.ColorDeLetra}" Text="Tema de la aplicacion" />
+                                    <ComboBox
+                                        x:Name="TemaComboBox"
+                                        BorderBrush="{Binding Tema.FondoPrimario}"
+                                        BorderThickness="3"
+                                        Foreground="{Binding Tema.ColorDeLetra}"
+                                        SelectedIndex="0"
+                                        SelectionChanged="TemaComboBox_SelectionChanged">
+                                        <ComboBoxItem Foreground="{Binding Tema.ColorDeLetra}">Tema Negro</ComboBoxItem>
+                                        <ComboBoxItem Foreground="{Binding Tema.ColorDeLetra}">Tema Claro</ComboBoxItem>
+                                        <ComboBoxItem Foreground="{Binding Tema.ColorDeLetra}">Tema Sepia</ComboBoxItem>
+                                    </ComboBox>
+
+                                </StackPanel>
+                            </Border>
+
+                        </StackPanel>
+
+
+                        <!--  Sección 2 ajustes de logo  -->
+                        <StackPanel
+                            
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="3"
+                           Margin="10,0,10,5"
+                            Padding="10"
+                            Background="{Binding Tema.FondoPrimario}"
+                            CornerRadius="8">
+                            <!--  Sección 2  -->
+                            <TextBlock
+                                Margin="0,10,0,4"
+                                FontSize="18"
+                                FontWeight="Bold"
+                                Foreground="{Binding Tema.ColorDeLetra}"
+                                Text="Perfil De La Aplicacion" />
+
+                            <!--  Expander con imagen dentro  -->
+
+
+                            <controls:SettingsExpander
+                              
+                                Background="{Binding Tema.FondoPrimario}"
+                                Foreground="Black">
+
+
+                                <TextBlock  VerticalAlignment="Center" Margin="0,0,1000,0" 
+                                    Foreground="{Binding Tema.ColorDeLetra}">
+                                    <Run Text="Configuraciones del perfil" />
+                                    <LineBreak />
+                                    <Run Text="Puedes realizar cambios referente a la aplicacion en este espacio" />
+                                </TextBlock>
+
+                                <controls:SettingsExpander.Items>
+                                    <controls:SettingsCard HorizontalAlignment="Left" Background = "{Binding Tema.FondoSecundario}"  >
+
+
+
+                                        <Grid Width="3000">
+
+                                            <Grid.ColumnDefinitions>
+                                                <!--  Definir columnas para las esquinas  -->
+                                                <ColumnDefinition Width="auto" />
+                                                <!--  Esquina izquierda  -->
+                                                <ColumnDefinition Width="auto" />
+                                               
+                                                <!--  Espacio intermedio  -->
+
+
+                                                <!--  Esquina derecha  -->
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel  
+                                                Padding="20"
+                                                CornerRadius="23"
+                                               HorizontalAlignment="Stretch"
+                                               Margin="0,0,300,0"
+                                                BorderBrush="{Binding Tema.FondoPrimario}"                                             
+                                               
+                                                Grid.Column="0"
+                                                Background="{Binding Tema.FondoTersario}"
+                                                Orientation="Vertical"                                               >
+
+                                                <TextBlock
+                                                    Margin="0,10,0,4"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="18"
+                                                    FontWeight="Bold"
+                                                    Foreground="{Binding Tema.ColorDeLetra}"
+                                                    Text="Modificar Logo" />
+
+                                                <!--  Imagen del logo  -->
+
+                                                <StackPanel CornerRadius="40,40,40,40">
+                                                    <Image
+     
+                                                         x:Name="Imagen"
+                                                         Width="200"
+                                                         Height="200"
+                                                         Margin="0,5,0,10"
+                                                         HorizontalAlignment="Stretch"
+                                                         VerticalAlignment="Stretch"
+                                                         Stretch="UniformToFill" />
+
+                                                </StackPanel>
+                                               
+                                                <!--  Botones para cambiar y guardar la imagen  -->
+                                                <StackPanel
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal"
+                                                    Spacing="10">
+                                                    <Button
+                                                        BorderBrush="{Binding Tema.FondoPrimario}"
+                                                        BorderThickness="1"
+                                                        Click="CambiarImagen_Click"
+                                                        Content="Cambiar imagen"
+                                                        Foreground="{Binding Tema.ColorDeLetra}" />
+                                                    <Button
+                                                        x:Name="BtnGuardar"
+                                                        BorderBrush="{Binding Tema.FondoPrimario}"
+                                                        BorderThickness="1"
+                                                        Click="GuardarImagen_Click"
+                                                        Content="Guardar"
+                                                        Foreground="{Binding Tema.ColorDeLetra}"
+                                                        Visibility="Collapsed" />
+
+                                                </StackPanel>
+                                            </StackPanel>
+
+                                            <StackPanel
+                                                HorizontalAlignment="Stretch"
+                                                Grid.Column="1"
+                                                
+                                                Background="{Binding Tema.FondoPrimario}">
+
+                                                <TextBlock Text="para el nombre" />
+
+                                            </StackPanel>
+
+                                        </Grid>
+
+                                    </controls:SettingsCard>
+                                </controls:SettingsExpander.Items>
+
+
+
+
+                            </controls:SettingsExpander>
+
+
+                        </StackPanel>
+
+
+                        <!--  Sección 3 informacion de la aplicacion  -->
+                        <StackPanel
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="10,0,10,5"
+                            Padding="10"
+                            Background="{Binding Tema.FondoPrimario}"
+                            CornerRadius="8">
+                            <!--  Sección 'Acerca de' con Toolkit  -->
+                            <TextBlock
+                                Margin="0,10,0,4"
+                                FontSize="18"
+                                FontWeight="Bold"
+                                Foreground="{Binding Tema.ColorDeLetra}"
+                                Text="Acerca de" />
+
+                            <controls:SettingsExpander
+                                BorderBrush="{Binding Tema.FondoPrimario}"
+                                BorderThickness="1"
+                                HeaderIcon="{ui:BitmapIcon Source=ms-appx:///Assets/AppTitleBar.scale-200.png}">
+
+                                <controls:SettingsExpander.Header>
+                                    <TextBlock Foreground="{Binding Tema.ColorDeLetra}" Text="Aplicación de escritorio punto de venta" />
+                                </controls:SettingsExpander.Header>
+
+                                <controls:SettingsExpander.Description>
+                                    <TextBlock Foreground="{Binding Tema.ColorDeLetra}" Text="© 2025. Empresa yggdrasil cod." />
+                                </controls:SettingsExpander.Description>
+
+
+                                <TextBlock
+                                    Foreground="{Binding Tema.ColorDeLetra}"
+                                    IsTextSelectionEnabled="True"
+                                    Text="Version 1.0.0" />
+                                <controls:SettingsExpander.Items>
+                                    <controls:SettingsCard
+                                        HorizontalContentAlignment="Left"
+                                        BorderBrush="{Binding Tema.FondoPrimario}"
+                                        BorderThickness="1"
+                                        ContentAlignment="Left">
+                                        <StackPanel Margin="-12,0,0,0" Orientation="Vertical">
+                                            <TextBlock Foreground="{Binding Tema.ColorDeLetra}" Text="Soporte tecnico" />
+                                            <HyperlinkButton Content="L" Foreground="{Binding Tema.ColorDeLetra}" />
+                                            <HyperlinkButton Content="Link 2" Foreground="{Binding Tema.ColorDeLetra}" />
+                                            <HyperlinkButton Content="Link 3" Foreground="{Binding Tema.ColorDeLetra}" />
+                                        </StackPanel>
+                                    </controls:SettingsCard>
+                                </controls:SettingsExpander.Items>
+                            </controls:SettingsExpander>
+
+
+
+                            <!--  Botón de feedback
+                            <HyperlinkButton Margin="0,8,0,0" Content="Enviar comentarios" />-->
+                        </StackPanel>
+
+                    </Grid>
+
+
+
+                </StackPanel>
+            </ScrollViewer>
+
+        </StackPanel>
+
+    </Grid>
+</Page>

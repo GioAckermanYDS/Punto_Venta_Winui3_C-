@@ -1,0 +1,57 @@
+<Page
+    x:Class="AlmacenApp.Views.Login"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:estilos="using:Almacen.Estilos_Configuracion.Estilos"
+    xmlns:local="using:AlmacenApp.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+
+
+    <StackPanel x:Name="LoginPage_Ventana" Background="{Binding FondoPrimario}">
+        <Grid
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="{Binding FondoPrimario}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <!--  Barra de navegación con altura fija  -->
+                <RowDefinition Height="*" />
+                <!--  Esto hace que el menú ocupe TODO lo demás  -->
+            </Grid.RowDefinitions>
+
+            <!--  BARRA DE NAVEGACION  -->
+            <StackPanel
+                Grid.Row="0"
+                Height="60"
+                HorizontalAlignment="Stretch"
+                Background="{Binding FondoPrimario}"
+                Orientation="Horizontal">
+
+               
+            </StackPanel>
+
+
+            <!--  MENU PRINCIPAL  -->
+            <StackPanel
+                BorderThickness="3"
+                BorderBrush="{Binding FondoTersario}"
+                Grid.Row="1"
+                Height="{Binding ActualHeight, ElementName=LoginPage_Ventana}"
+                Background="{Binding FondoSecundario}">
+
+                <StackPanel>
+                    
+                </StackPanel>
+            </StackPanel>
+
+
+
+        </Grid>
+
+    </StackPanel>
+
+</Page>

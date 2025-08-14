@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Almacen.Views.View_Almacen.ViewCategorias"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:config="using:Almacen.Estilos_Configuracion.Configuraciones.Formateo_Numeros"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:estilos="using:Almacen.Estilos_Configuracion.Estilos"
+    xmlns:local="using:Almacen.Views.View_Almacen"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Almacen.Models"
+    x:Name="RootPage"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <config:Formato_Numeros_Colombinos x:Key="FormatoColombiano" />
+
+        <Style x:Key="CustomTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Foreground" Value="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}" />
+            <Setter Property="Background" Value="Red" />
+            <Setter Property="BorderBrush" Value="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}" />
+            <Setter Property="SelectionHighlightColor" Value="Transparent" />
+            <Setter Property="FocusVisualPrimaryBrush" Value="Transparent" />
+            <Setter Property="FocusVisualSecondaryBrush" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <ScrollViewer
+                                x:Name="ContentElement"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{Binding Tema.FondoTersario}"
+                                BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoSecundario}"
+                                BorderThickness="0,0,0,3"
+                                CornerRadius="5,5,10,10" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+
+
+
+    <Grid x:Name="View_Categoria_Pagina" Background="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}">
+
+        <!--  Definición de filas BorderBrush="  -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <!--  Definir columnas para las esquinas  -->
+            <ColumnDefinition Width="*" />
+
+        </Grid.ColumnDefinitions>
+
+        <Grid x:Name="MainContent" />
+
+        <!--  Primera sección  -->
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            VerticalAlignment="Top">
+            <Grid Grid.Row="0" Background="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}">
+                <Grid.ColumnDefinitions>
+                    <!--  Definir columnas para las esquinas  -->
+                    <ColumnDefinition Width="Auto" />
+                    <!--  Esquina izquierda  -->
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <!--  Espacio intermedio  -->
+                    <ColumnDefinition Width="*" />
+
+                    <!--  Esquina derecha  -->
+                </Grid.ColumnDefinitions>
+
+                <StackPanel
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+
+
+
+                    <!--  Botón Regresar  -->
+                    <Button
+                        Height="48"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Background="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                        BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                        BorderThickness="2"
+                        Click="Btn_Regresar"
+                        CornerRadius="25"
+                        FontSize="24">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <!--  Ícono  -->
+                            <FontIcon
+                                FontSize="24"
+                                Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                Glyph="&#xEDD9;" />
+                        </StackPanel>
+                    </Button>
+
+                    <!--  Imagen de la categoría  -->
+
+                    <Grid>
+                        <Ellipse
+                            x:Name="CategoriaImage"
+                            Width="65"
+                            Height="56"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Stroke="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                            StrokeThickness="2">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="ruta_a_tu_imagen_aqui" Stretch="UniformToFill" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </Grid>
+
+                    <!--  Texto de la categoría  -->
+                    <TextBlock
+                        x:Name="NombreTextBlock"
+                        Margin="10,0"
+                        VerticalAlignment="Center"
+                        FontSize="24"
+                        FontWeight="Bold"
+                        Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                        Text="Cargando..." />
+
+
+                </StackPanel>
+
+                <!--  barra de busqueda  -->
+                <StackPanel
+                    Grid.Column="2"
+                    Margin="10,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+
+                    <TextBlock
+                        Margin="0,0,10,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="Filtro de busqueda" />
+
+                    <TextBox
+                        x:Name="FiltroTextBox"
+                        Width="190"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                        PlaceholderText="Escribe aquí para filtrar"
+                        Style="{StaticResource CustomTextBoxStyle}"
+                        TextChanged="FiltroTextBox_TextChanged" />
+
+
+
+
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Column="3"
+                    Margin="10,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+
+                    <Button
+                        Height="48"
+                        Margin="10,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                        BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                        BorderThickness="2"
+                        Click="Btn_Agregar_Producto"
+                        CornerRadius="25"
+                        FontSize="19">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <!--  Ícono  -->
+                            <FontIcon
+                                Margin="0,0,10,0"
+                                FontSize="24"
+                                Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                Glyph="&#xED0E;" />
+                            <!--  Texto  -->
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                Text="Agregar" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button
+                        Height="48"
+                        Margin="10,0,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                        BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                        BorderThickness="2"
+                        Click="Btn_Modificar_Categoria"
+                        CornerRadius="25"
+                        FontSize="19">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <!--  Ícono  -->
+                            <FontIcon
+                                Margin="0,0,10,0"
+                                FontSize="24"
+                                Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                Glyph="&#xE70F;" />
+                            <!--  Texto  -->
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                Text="Editar" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button
+                        Height="48"
+                        Margin="10,0,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                        BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                        BorderThickness="2"
+                        Click="Btn_Borrar_Categoria"
+                        CornerRadius="25"
+                        FontSize="19">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <!--  Ícono  -->
+                            <FontIcon
+                                Margin="0,0,10,0"
+                                FontSize="24"
+                                Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                Glyph="&#xE74D;" />
+                            <!--  Texto  -->
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                Text="Eliminar" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+
+
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalAlignment="Top"
+            BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoTersario}"
+            BorderThickness="15,5,0,0"
+            CornerRadius="10,10,0,0">
+            <Grid Background="{Binding ElementName=RootPage, Path=Tema.FondoSecundario}">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+
+                <StackPanel Grid.Row="0">
+                    <Grid
+                        Height="40"
+                        Margin="2"
+                        VerticalAlignment="Top"
+                        Background="{Binding ElementName=RootPage, Path=Tema.FondoTersario}">
+                        <!--  Definición de columnas  -->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--  TextBlocks  -->
+                        <TextBlock
+                            x:Name="Nombre"
+                            Grid.Column="0"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="18"
+                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                            PointerPressed="OrdenarLista"
+                            Text="Nombre" />
+                        <TextBlock
+                            x:Name="Descripcion"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                            PointerPressed="OrdenarLista"
+                            Text="Descripción" />
+
+                        <TextBlock
+                            x:Name="Precio"
+                            Grid.Column="3"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                            PointerPressed="OrdenarLista"
+                            Text="Precio" />
+
+                        <TextBlock
+                            x:Name="Ganancia"
+                            Grid.Column="4"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                            PointerPressed="OrdenarLista"
+                            Text="Ganancia" />
+
+                        <TextBlock
+                            x:Name="Cantidad"
+                            Grid.Column="5"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                            PointerPressed="OrdenarLista"
+                            Text="Cantidad" />
+
+                        <TextBlock
+                            x:Name="Total"
+                            Grid.Column="6"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                            PointerPressed="OrdenarLista"
+                            Text="Precio Total" />
+
+                    </Grid>
+
+                </StackPanel>
+
+
+
+                <StackPanel
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Background="{Binding ElementName=RootPage, Path=Tema.FondoSecundario}">
+
+                    <!--  ScrollViewer dentro del StackPanel  -->
+                    <ScrollViewer
+                        HorizontalScrollBarVisibility="Disabled"
+                        HorizontalScrollMode="Disabled"
+                        VerticalScrollBarVisibility="Auto"
+                        VerticalScrollMode="Enabled">
+
+
+                        <!--  ListView  -->
+                        <ListView
+                            x:Name="ProductosListView"
+                            Height="665"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top">
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Producto">
+                                    <Grid
+                                        Margin="3"
+                                        Padding="9"
+                                        VerticalAlignment="Center"
+                                        Background="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                        BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoTersario}"
+                                        BorderThickness="0,0,5,4"
+                                        CornerRadius="10">
+                                        <!--  Contenido del producto  -->
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Margin="10,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="18"
+                                            FontWeight="Bold"
+                                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                            Text="{Binding Nombre}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Grid.ColumnSpan="2"
+                                            Margin="10,0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="14"
+                                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                            Text="{Binding Descripcion}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            x:Name="Precio_Text"
+                                            Grid.Column="3"
+                                            Margin="10,0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="14"
+                                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                            Text="{Binding PrecioCompra, Mode=OneWay, Converter={StaticResource FormatoColombiano}}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            x:Name="Ganancia_Text"
+                                            Grid.Column="4"
+                                            Margin="10,0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="14"
+                                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                            Text="{Binding Ganancia, Mode=OneWay, Converter={StaticResource FormatoColombiano}}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Grid.Column="5"
+                                            Margin="10,0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="14"
+                                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                            Text="{Binding Cantidad, Mode=OneWay}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            x:Name="PrecioTotal_Text"
+                                            Grid.Column="6"
+                                            Margin="10,0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="14"
+                                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                            Text="{x:Bind PrecioTotal, Mode=OneWay, Converter={StaticResource FormatoColombiano}}"
+                                            TextWrapping="Wrap" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </ScrollViewer>
+
+
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+        <Grid
+            x:Name="ShadowLayer"
+            Grid.Row="1"
+            Grid.Column="0"
+            Width="1050" />
+        <Grid
+            x:Name="main_categoria"
+            Grid.Row="1"
+            Width="1000"
+            Margin="0,110,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            CornerRadius="5"
+            Visibility="Collapsed">
+            <!--  Vista de productos  -->
+            <Frame x:Name="view_productos" />
+        </Grid>
+        <Grid
+            x:Name="main_agregar_producto"
+            Grid.Row="1"
+            Width="1000"
+            Margin="0,110,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            CornerRadius="5"
+            Visibility="Collapsed">
+
+            <Frame x:Name="view_agregar_producto" />
+        </Grid>
+    </Grid>
+</Page>

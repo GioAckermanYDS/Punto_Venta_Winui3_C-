@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Window
+    x:Class="Almacen.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Almacen"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Almacen"
+    mc:Ignorable="d">
+
+
+
+
+    <Grid x:Name="RootGrid"  BorderBrush="{Binding FondoPrimario}">
+
+
+        <NavigationView
+            
+            Background="{Binding FondoPrimario}"
+             BorderBrush="{Binding FondoPrimario}"
+            x:Name="nvSample"
+            IsBackButtonVisible="Collapsed"
+            IsPaneOpen="True"
+            IsSettingsVisible="False"
+            ItemInvoked="nvSample_ItemInvoked"
+            PaneClosing="NvSample_PaneClosing"
+            PaneOpening="NvSample_PaneOpening"
+            PaneTitle="Punto De Venta">
+
+            <NavigationView.PaneCustomContent>
+                <StackPanel
+                    
+                    Margin="20"
+                    HorizontalAlignment="Center"
+                    Orientation="Vertical"
+                    Spacing="10">
+                    <!--  Imagen redonda  -->
+                    <Ellipse
+                        x:Name="ProfileImage"
+                        Width="200"
+                        Height="200">
+                        <Ellipse.Fill>
+                            <ImageBrush x:Name="LogoImage" Stretch="UniformToFill" />
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <!--  Texto de bienvenida  -->
+                    <TextBlock
+                        Foreground="{Binding ColorDeLetra}"
+                        x:Name="WelcomeText"
+                        HorizontalAlignment="Center"
+                        FontSize="16"
+                        Text="ALBEiRO AGM MOTOS" />
+                </StackPanel>
+            </NavigationView.PaneCustomContent>
+
+            <!--  Opciones del menú  -->
+            <NavigationView.MenuItems>
+                <NavigationViewItem
+                    Foreground="{Binding ColorDeLetra}"
+                    Content="Inicio"
+                    Tag="Inicio"
+                    Tapped="NavigateToPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEA8A;" Foreground="{Binding ColorDeLetra}"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem
+                    Foreground="{Binding ColorDeLetra}"
+                    Content="Punto de Venta"
+                    Tag="PuntoDeVenta"
+                    Tapped="NavigateToPage">
+                    <NavigationViewItem.Icon>
+                        <SymbolIcon Symbol="Shop" Foreground="{Binding ColorDeLetra}"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem
+                    Foreground="{Binding ColorDeLetra}"
+                    Content="Almacén"
+                    Tag="Almacen"
+                    Tapped="NavigateToPage">
+                    <NavigationViewItem.Icon>
+                        <SymbolIcon Symbol="Library" Foreground="{Binding ColorDeLetra}"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <!-- <NavigationViewItem
+             Content="Registro"
+             Tag="Registro"
+             Tapped="NavigateToPage">
+             <NavigationViewItem.Icon>
+                 <SymbolIcon Symbol="AddFriend" />
+             </NavigationViewItem.Icon>
+         </NavigationViewItem>-->
+
+                <NavigationViewItem
+                    Foreground="{Binding ColorDeLetra}"
+                    Content="Ajustes"
+                    Tag="Ajustes"
+                    Tapped="NavigateToPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE713;" Foreground="{Binding ColorDeLetra}"/>
+                        <!-- Ícono de engranaje -->
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+            </NavigationView.MenuItems>
+
+            
+            
+            
+            <!--  Footer  -->
+            <NavigationView.FooterMenuItems>
+                <NavigationViewItem Foreground="{Binding ColorDeLetra}" Content="Salir" Tapped="Btn_Exit">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE7E8;" Foreground="{Binding ColorDeLetra}"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.FooterMenuItems>
+            
+            
+
+            <!--  Contenido principal  -->
+            <Frame x:Name="MainFrame" />
+        </NavigationView>
+
+    </Grid>
+
+
+
+
+</Window>

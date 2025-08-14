@@ -1,0 +1,717 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Almacen.Views.View_Almacen.View_Productos"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:config="using:Almacen.Estilos_Configuracion.Configuraciones"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:estilos="using:Almacen.Estilos_Configuracion.Estilos"
+    xmlns:local="using:Almacen.Views.View_Almacen"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Almacen.Models"
+    x:Name="RootPage"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="config:SoloNumerosBehavior.Aplicar" Value="True" />
+
+        </Style>
+    </Page.Resources>
+
+
+    <StackPanel
+        HorizontalAlignment="Center"
+        Background="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+        CornerRadius="20">
+
+        <ScrollViewer
+            Width="1030"
+            Height="395"
+            VerticalScrollBarVisibility="Auto">
+            <StackPanel Padding="10" Spacing="12">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <!--  Definir columnas para las esquinas  -->
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+
+                    </Grid.ColumnDefinitions>
+
+
+                    <!--  Modulo: NOMBRE______________________________________________________________________________________  -->
+                    <StackPanel
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="10,0"
+                        Padding="25"
+                        CornerRadius="20">
+
+                        <!--  Etiqueta del cuadro de texto  -->
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            AutomationProperties.AccessibilityView="Raw"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                            Text="Nombre:" />
+
+                        <TextBox
+                            x:Name="NombreTextBox"
+                            Width="200"
+                            Padding="3"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            AcceptsReturn="True"
+                            Background="White"
+                            BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                            BorderThickness="2"
+                            CornerRadius="10"
+                            Foreground="Black"
+                            TextAlignment="Left"
+                            TextWrapping="Wrap">
+
+                            <!--  Estilo personalizado  -->
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="TextBox">
+                                                <Grid>
+                                                    <Border
+                                                        x:Name="BorderElement"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="10">
+                                                        <!--  ScrollViewer para manejar el contenido de texto  -->
+                                                        <ScrollViewer x:Name="ContentElement" Padding="{TemplateBinding Padding}" />
+                                                    </Border>
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup x:Name="FocusStates">
+                                                            <!--  Estado sin enfoque  -->
+                                                            <VisualState x:Name="Unfocused" />
+                                                            <!--  Estado con enfoque  -->
+                                                            <VisualState x:Name="Focused">
+                                                                <Storyboard>
+                                                                    <!--  Fondo blanco al recibir foco  -->
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="White" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                    <!--  Bordes grises al recibir foco  -->
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <!--  Forzar que el texto siempre sea negro  -->
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+
+
+
+                    </StackPanel>
+
+                    <!--  Modulo: Cantidad______________________________________________________________________________________  -->
+                    <StackPanel
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="15,10"
+                        Padding="10"
+                        VerticalAlignment="Center"
+                        CornerRadius="20">
+
+                        <!--  Título del módulo  -->
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                            Text="Cantidad" />
+
+                        <!--  Cuadro de texto con estilo personalizado  -->
+                        <TextBox
+                            x:Name="CantidadTextBox"
+                            Width="200"
+                            Padding="3"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            config:SoloNumerosBehavior.Aplicar="True"
+                            Background="White"
+                            BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                            BorderThickness="2"
+                            CornerRadius="10"
+                            Foreground="Black"
+                            GotFocus="TextBox_GotFocus"
+                            LostFocus="TextBox_LostFocus"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            TextAlignment="Left"
+                            TextChanged="TextBox_TextChanged">
+
+
+                            <!--  Estilo personalizado  -->
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="TextBox">
+                                                <Grid>
+                                                    <Border
+                                                        x:Name="BorderElement"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="10">
+                                                        <!--  ScrollViewer para mostrar el texto  -->
+                                                        <ScrollViewer
+                                                            x:Name="ContentElement"
+                                                            Padding="{TemplateBinding Padding}"
+                                                            Foreground="{TemplateBinding Foreground}" />
+                                                    </Border>
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup x:Name="FocusStates">
+                                                            <!--  Estado sin enfoque  -->
+                                                            <VisualState x:Name="Unfocused" />
+                                                            <!--  Estado con enfoque  -->
+                                                            <VisualState x:Name="Focused">
+                                                                <Storyboard>
+                                                                    <!--  Fondo blanco al recibir foco  -->
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="White" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                    <!--  Bordes con color de acento al recibir foco  -->
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <!--  Mantener el texto siempre en negro  -->
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                    </StackPanel>
+
+                    <!--  Modulo: Precio de Compra______________________________________________________________________________________  -->
+                    <StackPanel
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        Margin="10,10"
+                        Padding="20"
+                        VerticalAlignment="Center"
+                        CornerRadius="20">
+
+                        <!--  Título del módulo  -->
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                            Text="Precio de Compra" />
+
+                        <!--  Cuadro de texto con estilo personalizado  -->
+                        <TextBox
+                            x:Name="PrecioCompraTextBox"
+                            Width="200"
+                            Height="30"
+                            Padding="3"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            config:SoloNumerosBehavior.Aplicar="True"
+                            Background="White"
+                            BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                            BorderThickness="2"
+                            CornerRadius="10"
+                            Foreground="Black"
+                            GotFocus="TextBox_GotFocus"
+                            LostFocus="TextBox_LostFocus"
+                            PreviewKeyDown="TextBox_PreviewKeyDown"
+                            TextAlignment="Left"
+                            TextChanged="Actualizar_texto_Precio_Final">
+
+                            <!--  Estilo personalizado  -->
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="TextBox">
+                                                <Grid>
+                                                    <Border
+                                                        x:Name="BorderElement"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="10">
+                                                        <ScrollViewer
+                                                            x:Name="ContentElement"
+                                                            Padding="{TemplateBinding Padding}"
+                                                            Foreground="{TemplateBinding Foreground}" />
+                                                    </Border>
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup x:Name="FocusStates">
+                                                            <VisualState x:Name="Unfocused" />
+                                                            <VisualState x:Name="Focused">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="White" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                    </StackPanel>
+
+                    <!--  Modulo: DESCRIPCION______________________________________________________________________________________  -->
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="15,10"
+                        Padding="10"
+                        CornerRadius="20">
+
+                        <!--  Título del módulo  -->
+                        <TextBlock
+                            Margin="0,0,0,10"
+                            HorizontalAlignment="Left"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                            Text="Descripción" />
+
+                        <!--  Cuadro de texto  -->
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <TextBox
+                                x:Name="DescripcionTextBox"
+                                MinHeight="90"
+                                Padding="8"
+                                AcceptsReturn="True"
+                                Background="White"
+                                BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                BorderThickness="2"
+                                CornerRadius="10"
+                                Foreground="Black"
+                                TextAlignment="Left"
+                                TextWrapping="Wrap">
+
+                                <!--  Estilo personalizado  -->
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="TextBox">
+                                                    <Grid>
+                                                        <Border
+                                                            x:Name="BorderElement"
+                                                            Background="{TemplateBinding Background}"
+                                                            BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                            CornerRadius="10">
+                                                            <!--  ScrollViewer para manejar el contenido de texto  -->
+                                                            <ScrollViewer
+                                                                x:Name="ContentElement"
+                                                                Padding="{TemplateBinding Padding}"
+                                                                Foreground="{TemplateBinding Foreground}" />
+                                                        </Border>
+                                                        <VisualStateManager.VisualStateGroups>
+                                                            <VisualStateGroup x:Name="FocusStates">
+                                                                <!--  Estado sin enfoque  -->
+                                                                <VisualState x:Name="Unfocused" />
+                                                                <!--  Estado con enfoque  -->
+                                                                <VisualState x:Name="Focused">
+                                                                    <Storyboard>
+                                                                        <!--  Fondo blanco al recibir foco  -->
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="White" />
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                        <!--  Bordes con color gris oscuro al recibir foco  -->
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}" />
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </VisualState>
+                                                            </VisualStateGroup>
+                                                        </VisualStateManager.VisualStateGroups>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <!--  Forzar que el texto siempre sea negro  -->
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </ScrollViewer>
+
+
+
+
+
+
+
+                    </StackPanel>
+
+                    <!--  Método de Cálculo de Precio______________________________________________________________________________________  -->
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Margin="15,10"
+                        Padding="10"
+                        VerticalAlignment="Center"
+                        CornerRadius="30">
+                        <Grid
+                            Margin="5"
+                            Padding="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center">
+                            <StackPanel
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Orientation="Vertical">
+                                <TextBlock
+                                    Margin="0,0,0,10"
+                                    FontSize="16"
+                                    FontWeight="SemiBold"
+                                    Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                    Text="Método de Ganancia" />
+                                <StackPanel x:Name="MetodoCalculoStackPanel" Orientation="Horizontal">
+                                    <!--  Estilo para RadioButton  -->
+                                    <RadioButton
+                                        x:Name="PorcentajeGananciaRadioButton"
+                                        BorderThickness="1"
+                                        Checked="MetodoCalculoRadioButton_Checked"
+                                        Content="Porcentaje"
+                                        CornerRadius="10"
+                                        Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                        GroupName="MetodoCalculo"
+                                        Tag="PorcentajeGanancia" />
+
+                                    <RadioButton
+                                        x:Name="PrecioFijoRadioButton"
+                                        BorderThickness="1"
+                                        Checked="MetodoCalculoRadioButton_Checked"
+                                        Content="Precio Fijo"
+                                        CornerRadius="10"
+                                        Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                        GroupName="MetodoCalculo"
+                                        Tag="PrecioFijo" />
+
+                                </StackPanel>
+
+                                <!--  Estilo para Precio Fijo TextBox  -->
+                                <TextBox
+                                    x:Name="PrecioFijoTextBox"
+                                    Width="110"
+                                    Height="30"
+                                    Padding="0,0,20,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    config:SoloNumerosBehavior.Aplicar="True"
+                                    Background="White"
+                                    Foreground="Black"
+                                    GotFocus="TextBox_GotFocus"
+                                    LostFocus="TextBox_LostFocus"
+                                    PreviewKeyDown="TextBox_PreviewKeyDown"
+                                    TextAlignment="Right"
+                                    TextChanged="Actualizar_texto_Precio_Final">
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="TextBox">
+                                                        <Grid>
+                                                            <Border
+                                                                x:Name="BorderElement"
+                                                                Background="{TemplateBinding Background}"
+                                                                BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                                CornerRadius="10">
+                                                                <Grid>
+                                                                    <!--  Área para texto ingresado  -->
+                                                                    <ContentPresenter
+                                                                        x:Name="ContentElement"
+                                                                        Margin="0,0,20,0"
+                                                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                                    <!--  Ícono del porcentaje  -->
+                                                                    <TextBlock
+                                                                        Margin="0,0,5,0"
+                                                                        HorizontalAlignment="Right"
+                                                                        VerticalAlignment="Center"
+                                                                        FontWeight="Bold"
+                                                                        Foreground="Black"
+                                                                        IsHitTestVisible="False"
+                                                                        Text="$" />
+                                                                </Grid>
+                                                            </Border>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Setter Property="Foreground" Value="Black" />
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+
+
+                                <!--  Estilo para porcentaje  -->
+                                <StackPanel
+                                    x:Name="PorcentajeGananciaStackPanel"
+                                    Margin="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal"
+                                    Visibility="Collapsed">
+                                    <!--  Botón izquierdo  -->
+                                    <Button
+                                        Width="40"
+                                        Height="30"
+                                        Background="Transparent"
+                                        Click="BotonIzquierdo_Click">
+                                        <FontIcon FontSize="13" Glyph="&#xF08D;" />
+                                    </Button>
+
+                                    <!--  TextBox en el porcentaje  -->
+                                    <TextBox
+                                        x:Name="PorcentajeGananciaTextBox"
+                                        Width="110"
+                                        Height="30"
+                                        Padding="0,0,20,0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        config:SoloNumerosBehavior.Aplicar="True"
+                                        Background="White"
+                                        CornerRadius="10"
+                                        Foreground="Black"
+                                        GotFocus="TextBox_GotFocus"
+                                        LostFocus="TextBox_LostFocus"
+                                        PreviewKeyDown="TextBox_PreviewKeyDown"
+                                        TextAlignment="Right"
+                                        TextChanged="Actualizar_texto_Precio_Final">
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="TextBox">
+                                                            <Grid>
+                                                                <Border
+                                                                    x:Name="BorderElement"
+                                                                    Background="{TemplateBinding Background}"
+                                                                    BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                                    CornerRadius="10">
+                                                                    <Grid>
+                                                                        <ContentPresenter
+                                                                            x:Name="ContentElement"
+                                                                            Margin="0,0,20,0"
+                                                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                                        <TextBlock
+                                                                            Margin="0,0,5,0"
+                                                                            HorizontalAlignment="Right"
+                                                                            VerticalAlignment="Center"
+                                                                            FontWeight="Bold"
+                                                                            Foreground="Black"
+                                                                            IsHitTestVisible="False"
+                                                                            Text="%" />
+                                                                    </Grid>
+                                                                </Border>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="Foreground" Value="Black" />
+                                            </Style>
+                                        </TextBox.Style>
+                                    </TextBox>
+
+                                    <!--  Botón derecho  -->
+                                    <Button
+                                        Width="40"
+                                        Height="30"
+                                        Background="Transparent"
+                                        Click="BotonDerecho_Click">
+                                        <FontIcon FontSize="13" Glyph="&#xF08F;" />
+                                    </Button>
+                                </StackPanel>
+
+
+
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+
+                    <!--  Modulo: Precio final___________________________________________________________________________________  -->
+                    <StackPanel
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        Margin="10"
+                        CornerRadius="30">
+
+                        <Border CornerRadius="30">
+                            <StackPanel>
+                                <!--  Título del módulo  -->
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                    Text="Precio Final de Venta" />
+
+                                <!--  Texto del precio final ajustado  -->
+                                <TextBlock
+                                    x:Name="PrecioFinalTextBlock"
+                                    Width="200"
+                                    VerticalAlignment="Center"
+                                    Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                    Text="{Binding PrecioTotal}"
+                                    TextAlignment="Center">
+                                    <!--  Estilo personalizado  -->
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                            <Setter Property="FontSize" Value="16" />
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!--  MODULO BOTONES DE VENTANA______________________________________________________________________________________  -->
+                    <StackPanel
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <!--  Definir columnas para las esquinas  -->
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+
+                            </Grid.ColumnDefinitions>
+
+                            <Button
+                                Grid.Column="0"
+                                Width="150"
+                                Height="50"
+                                Margin="0,0,10,0"
+                                Background="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                BorderThickness="1"
+                                Click="Btn_Modificar"
+                                CornerRadius="25"
+                                Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}">
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <FontIcon
+                                        Margin="0,0,10,0"
+                                        FontSize="24"
+                                        Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                        Glyph="&#xF78C;" />
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                        Text="Guardar" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                Grid.Column="1"
+                                Width="150"
+                                Height="50"
+                                Margin="0,0,10,0"
+                                Background="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                BorderThickness="1"
+                                Click="Btn_Eliminar"
+                                CornerRadius="25"
+                                Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}">
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <FontIcon
+                                        Margin="0,0,10,0"
+                                        FontSize="24"
+                                        Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                        Glyph="&#xE74D;" />
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                        Text="Eliminar" />
+                                </StackPanel>
+                            </Button>
+
+                            <Button
+                                Grid.Column="2"
+                                Width="150"
+                                Height="50"
+                                Margin="0,0,10,0"
+                                Background="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                BorderBrush="{Binding ElementName=RootPage, Path=Tema.FondoPrimario}"
+                                BorderThickness="1"
+                                Click="Btn_Cerrar"
+                                CornerRadius="25"
+                                Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}">
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <FontIcon
+                                        Margin="0,0,10,0"
+                                        FontSize="24"
+                                        Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                        Glyph="&#xF78A;" />
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        Foreground="{Binding ElementName=RootPage, Path=Tema.ColorDeLetra}"
+                                        Text="Cancelar" />
+                                </StackPanel>
+                            </Button>
+
+                        </Grid>
+
+                    </StackPanel>
+
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+
+
+    </StackPanel>
+
+
+</Page>
